@@ -15,6 +15,12 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
+
+    <!-- RESAI -->
+    @php
+        use App\Models\ResAI;
+        $model = new ResAI();
+    @endphp
 </head>
 
 <body class="bg-backTheme text-[#1b1b18] p-4 lg:p-6 items-center lg:justify-center min-h-screen">
@@ -46,29 +52,14 @@
         @endif
     </header>
     <div class="items-center justify-center w-full min-h-[700px]">
-        <main class="p-5 w-full h-[650px] bg-primary overflow-y-auto overscroll-contain rounded-2xl">
+        <main class="p-5 w-full h-[650px] bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
             <x-message-box>
-                How are you doing
+                Hello there
             </x-message-box>
-            <x-message-box>
-                Yee haw dawgs
-            </x-message-box>
-            <x-message-box>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea eveniet recusandae repellendus nesciunt placeat, voluptate quas laboriosam incidunt mollitia provident sequi animi reprehenderit, iure nemo minima ipsam soluta fugit aperiam? Tenetur aliquid porro, fuga amet beatae ad excepturi eligendi nisi repudiandae aspernat
-            </x-message-box>
-            <x-sender-box>
-                Hey man
-            </x-sender-box>
-            <x-sender-box>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, aperiam quos voluptatum, inventore odit quo fugit, quibusdam ipsa veniam eveniet odio vitae minus! Dolo
-            </x-sender-box>
-            <x-message-box>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem fuga, quisquam dolor accusamus delectus ullam, itaque labore distinctio odit mollitia consectetur sapiente voluptatibus quidem odio. Ut, facilis ipsam cupiditate illum magnam eligendi optio. Repellat pariatur iusto magni est similique excepturi ipsam hic corrupti voluptatibus autem totam ducimus quos, nisi aliquam voluptates earum sed vel provident a dolorum fuga cumque a
-            </x-message-box>
+            
         </main>
         <div class="flex w-full h-auto justify-center pt-2 rounded-2xl">
-            <x-input class="w-1/2" placeholder="Query Here">
-                <i></i>
+            <x-input class="w-1/2" placeholder="Answer Baltimore For Further Process" autofocus onkeydown="inputEnter();" id="qInput">
             </x-input>
         </div>
     </div>
