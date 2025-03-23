@@ -9,15 +9,25 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        "./resources/views/*.{html,js,php}",
+        "./resources/views/**.blade.php",
     ],
-
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'backTheme' : '#495057',
+                'primary' : '#212529', 
+                'secondary': '#50406c',
+                'ternary': '#adb5bd',
+                'quat': '#a2d2ff'
+            },
         },
+
     },
 
     plugins: [forms, typography],
 };
+
