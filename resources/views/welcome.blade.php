@@ -15,11 +15,11 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
-
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- RESAI -->
     @php
-        use App\Models\ResAI;
-        $model = new ResAI();
+    use App\Models\ResAI;
+    $model = new ResAI();
     @endphp
 </head>
 
@@ -54,19 +54,36 @@
     <div class="items-center justify-center w-full min-h-[700px]">
         <main class="p-5 w-full h-[650px] bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
             <x-message-box>
-                Hello there
+                <x-slot:Id>AI1</x-slot:Id>
             </x-message-box>
-            
         </main>
         <div class="flex w-full h-auto justify-center pt-2 rounded-2xl">
             <x-input class="w-1/2" placeholder="Answer Baltimore For Further Process" autofocus onkeydown="inputEnter();" id="qInput">
             </x-input>
         </div>
     </div>
-
     @if (Route::has('login'))
     <div class="h-14.5 hidden lg:block bg-[#00FF00]"></div>
     @endif
 </body>
+<script type ="module">
+    function ajaxReq(prompt) {
+        $.ajax({
+            url: '/getRes',
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+            method: 'POST',
+            data: {
+                'prompt': prompt
+            },
+            success: res => updResponse(res)
+        });
+    }
+    console.log(AIRes)
+    console.log(UserRes)
+    if(AIRes.length == 0){}
+    
+</script>
 
 </html>
