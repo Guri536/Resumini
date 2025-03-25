@@ -4,20 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\ResAI;
 use Illuminate\Http\Request;
+use App\Providers\ResAIGem;
 
 class ResAICont extends Controller
 {
     private $model;
     function __construct() {
-        $this->model = new ResAI();
-        return view('welcome');
+        $this->model = app(ResAI::class);
     }
-    function getV(){ 
-        $this->model = new ResAI();
-        return view('welcome');
-    }
-
-    function getRes(){ 
-        return response($this->model->getRes(request('prompt'))); 
+    function getRes(Request $req){ 
+        return response($this->model->getRes($req->input('prompt'))); 
     }
 }

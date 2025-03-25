@@ -17,14 +17,10 @@
     @endif
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <!-- RESAI -->
-    @php
-    use App\Models\ResAI;
-    $model = new ResAI();
-    @endphp
 </head>
 
-<body class="bg-backTheme text-[#1b1b18] p-4 lg:p-6 items-center lg:justify-center min-h-screen">
-    <header class="flex justify-end w-full lg:max-w-full max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
+<body class="parent bg-backTheme text-[#1b1b18] p-2 lg:p-2 items-center lg:justify-center min-h-screen max-h-screen">
+    <header class="flex p-2 justify-end w-full lg:max-w-full max-w-[335px] text-sm mb-3 not-has-[nav]:hidden">
         @if (Route::has('login'))
         <nav class="flex items-center justify-end gap-4">
             @auth
@@ -51,8 +47,8 @@
         </nav>
         @endif
     </header>
-    <div class="items-center justify-center w-full min-h-[700px]">
-        <main class="p-5 w-full h-[650px] bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
+    <div class="child items-center justify-center w-full block p-2">
+        <main class="p-5 w-full h-[84vh] max-h-[84vh] bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
         </main>
         <div class="flex w-full h-auto justify-center pt-2 rounded-2xl">
             <x-input class="w-1/2" placeholder="Answer Baltimore For Further Process" autofocus onkeydown="inputEnter();" id="qInput">
@@ -63,4 +59,5 @@
     <div class="h-14.5 hidden lg:block bg-[#00FF00]"></div>
     @endif
 </body>
+
 </html>

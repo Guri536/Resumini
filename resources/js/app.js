@@ -1,7 +1,19 @@
 import './bootstrap';
+import { LoremIpsum } from 'lorem-ipsum';
 
 window.AIRes = 0
 window.UserRes = 0
+const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+        max: 8,
+        min: 4
+    },
+    wordsPerSentence: {
+        max: 16,
+        min: 4
+    }
+});
+
 
 window.inputEnter = function inputEnter() {
     if (event.key == 'Enter') {
@@ -15,12 +27,12 @@ window.inputEnter = function inputEnter() {
     }
 }
 
-function setInput(){
+function setInput() {
     let input = document.getElementById('qInput');
     input.value = "";
     input.disabled = !input.disabled;
-    input.placeholder = input.disabled? "Waiting For Response": "Converse With Baltimore";
-    if(!input.disabled) input.focus();
+    input.placeholder = input.disabled ? "Waiting For Response" : "Converse With Baltimore";
+    if (!input.disabled) input.focus();
 }
 
 function updateMessage() {
@@ -32,22 +44,22 @@ function getOuterTemplate(type) {
     return "flex w-full justify-" + (type == 0 ? "start" : "end");
 }
 function getMidTemplate(type) {
-    return "p-2 min-w-[20px] w-auto max-w-4xl text-wrap mb-2 text-justify relative " + (type == 0 ? "bg-ternary text-ternary rounded-r-lg rounded-tl-lg invBor" : "bg-quat text-quat rounded-l-lg rounded-tr-lg invBor2")
+    return "p-2 min-w-[20px] w-auto max-w-6xl text-wrap mb-2 text-justify relative " + (type == 0 ? "bg-ternary text-ternary rounded-r-lg rounded-tl-lg invBor" : "bg-quat text-quat rounded-l-lg rounded-tr-lg invBor2")
 }
 
-function getAnimCircle(delay){
+function getAnimCircle(delay) {
     let circle = document.createElement("div");
     circle.className = "animCircle";
     circle.style = "animation-delay: " + delay + "s";
     return circle;
 }
 
-function addAnimEle(ele, delay){
+function addAnimEle(ele, delay) {
     let box = document.getElementById(ele);
     box.append(getAnimCircle(delay));
 }
 
-function addMessageElement(type){
+function addMessageElement(type) {
     let mBox = document.getElementById('chatBox');
     var outter = document.createElement("div");
     var mid = document.createElement("div");
@@ -55,14 +67,14 @@ function addMessageElement(type){
     outter.className = getOuterTemplate(type);
     mid.className = getMidTemplate(type);
     inner.className = "text-gray-800";
-    inner.id = (type == 0? "Balt" + AIRes++ : "User" + UserRes++)
+    inner.id = (type == 0 ? "Balt" + AIRes++ : "User" + UserRes++)
     outter.appendChild(mid);
     mid.appendChild(inner);
     mBox.appendChild(outter);
     return inner.id;
 }
 
-function addAnimationToMessage(inner){
+function addAnimationToMessage(inner) {
     var animBox = document.createElement("div");
     animBox.id = "anim1";
     animBox.className = "flex justify-center relative";
@@ -77,33 +89,37 @@ function addAnimationToMessage(inner){
 
 function updateMBox(type, text) {
     let inner = addMessageElement(type);
-    if(type == 1){
+    document.getElementById(inner).scrollIntoView({ behavior: 'smooth' })
+    if (type == 1) {
         document.getElementById(inner).append(text)
-        updateMBox(0, "Users Response: {" + 
-            text + "\
-        }. Give an appropriate response."
-        )
-    } else{
+        updateMBox(0, text)
+    } else {
         addAnimationToMessage(document.getElementById(inner));
         ajaxReq(text, inner);
     }
 }
 
 async function updateResponse(res, ele) {
-    var addRes = "";
     let inner = document.getElementById(ele);
     inner.innerHTML = "";
     for (var i in res) {
         if (res[i] == '\n') {
-            addRes += '<br>';
             inner.innerHTML += "<br>";
         } else {
-            addRes += res[i];
             inner.innerHTML += res[i];
         }
+        inner.scrollIntoView({ behavior: 'smooth', block: 'end' })
         await new Promise(resolve => setTimeout(resolve, 10));
     }
-    setInput();
+    document.getElementById("chatBox").scrollTo({
+        top: document.getElementById("chatBox").scrollHeight,
+        behavior: 'smooth'
+    });
+    if (res == "Failed To Launch. Retry.") {
+        document.getElementById("qInput").placeholder = "Unable to Connect: Reload, and try again, or later."
+    } else {
+        setInput();
+    }
 }
 
 function ajaxReq(prompt, ele) {
@@ -114,7 +130,7 @@ function ajaxReq(prompt, ele) {
         },
         method: 'POST',
         data: {
-            'prompt': prompt
+            'prompt': prompt,
         },
         success: res => updateResponse(res, ele)
     });
@@ -122,5 +138,17 @@ function ajaxReq(prompt, ele) {
 
 if (AIRes == 0) {
     setInput();
-    updateMBox(0, "Greet the User. Keep it short");
+    $.ajax({
+        url: '/clearChat',
+        headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        method: 'POST',
+        success: function () {
+            updateMBox(0, "Greet the User. Keep it short");
+        }
+    });
+    // var inner = addMessageElement(0);
+    // let ele = document.getElementById(inner);
+    // ele.innerHTML = lorem.generateParagraphs(20);
 }

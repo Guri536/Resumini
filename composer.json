@@ -15,7 +15,8 @@
         "laravel/jetstream": "^5.3",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^3.0",
+        "xemlock/php-latex": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -69,7 +70,7 @@
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         },
-        "process-timeout": 1800
+        "process-timeout": 18000
     },
     "minimum-stability": "stable",
     "prefer-stable": true
