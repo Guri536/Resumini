@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Laravel</title>
 
     <!-- Fonts -->
@@ -53,9 +53,6 @@
     </header>
     <div class="items-center justify-center w-full min-h-[700px]">
         <main class="p-5 w-full h-[650px] bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
-            <x-message-box>
-                <x-slot:Id>AI1</x-slot:Id>
-            </x-message-box>
         </main>
         <div class="flex w-full h-auto justify-center pt-2 rounded-2xl">
             <x-input class="w-1/2" placeholder="Answer Baltimore For Further Process" autofocus onkeydown="inputEnter();" id="qInput">
@@ -66,24 +63,4 @@
     <div class="h-14.5 hidden lg:block bg-[#00FF00]"></div>
     @endif
 </body>
-<script type ="module">
-    function ajaxReq(prompt) {
-        $.ajax({
-            url: '/getRes',
-            headers: {
-                'X-CSRF-Token': '{{ csrf_token() }}',
-            },
-            method: 'POST',
-            data: {
-                'prompt': prompt
-            },
-            success: res => updResponse(res)
-        });
-    }
-    console.log(AIRes)
-    console.log(UserRes)
-    if(AIRes.length == 0){}
-    
-</script>
-
 </html>

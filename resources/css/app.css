@@ -28,3 +28,25 @@
     border-bottom-left-radius: 20px;
     box-shadow: -10px 0 0 0;
 }
+.animCircle{
+    position: relative;
+    padding: 4px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation-name: waitingAnim;
+    background-color: white;
+    margin: 2px 3px;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in;
+    animation-direction: alternate;
+}
+
+@keyframes waitingAnim{
+    from { 
+        background-color: white;
+    }
+    to { 
+        background-color: rgba(255, 255, 255, 0.151);
+    }
+}
