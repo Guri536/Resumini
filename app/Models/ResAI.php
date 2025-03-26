@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use PhpLatex_Parser;
 use Illuminate\Http\Request;
 use Gemini\Exceptions\ErrorException;
+use Gemini\Enums\Role;
 
 class ResAI extends Model
 {
@@ -18,28 +19,39 @@ class ResAI extends Model
     function __construct()
     {   
         if(!session('chat')){
-            session()->put('chat', ['Hello Gemini, you are an AI helper, here to help users make thier Resumes.
-            Your name is now, Brian, and you must refer to yourself as that.
-            ']);
+            session()->put('chat', [Content::parse(part:'Hello Gemini, you are an AI helper, here to help users make thier Resumes.
+            Your name is now, Reshumi, and you must refer to yourself as that.
+            ', role: Role::USER)]);
         }
         $this->chat = session('chat');
         $history = [];
         forEach($this->chat as $text){
-            array_push($history, Content::parse(part:$text));
+            array_push($history, $text);
         }
         $this->model = Gemini::chat($model = "gemini-2.0-flash")->startChat( history: $history);
         $this->template = Storage::get('texTemplate.tex');
     }
     public function getRes($prompt)
     {
-        array_push($this->chat, $prompt);
-        try{
-            $res = $this->model->sendMessage($prompt);
-        } catch (ErrorException $error){
-            return "Failed To Launch. Retry.";
+        array_push($this->chat, Content::parse(part: $prompt, role: Role::USER));
+        $tries = 0;
+        // try{
+        //     $res = $this->model->sendMessage($prompt);
+        // } catch (ErrorException $error){
+        //     return "Failed To Launch. Retry.";
+        // }
+        while($tries < 1){
+            try{
+                $res = $this->model->sendMessage($prompt);
+                break;
+            } catch (ErrorException $error){
+                $res = "Failed To Launch. Retry.";
+            }
+            $tries++;
         }
+        if($res == "Failed To Launch. Retry.") return $res;
         $res = $res->text();
-        array_push($this->chat, $res);
+        array_push($this->chat, Content::parse(part: $res, role: Role::MODEL));
         session()->put('chat', $this->chat);
         return $res;
         // return $this->model->sendMessage("User's response: {" .
@@ -49,7 +61,7 @@ class ResAI extends Model
         //     If user's response is appropriate to the topic and fits the questions, then proceed, else don't and reask."
         // )->text();
     }
-    public function getDoc(){
+    public static function getDoc(){
         $parser = new PhpLatex_Parser();
         $template = Storage::get('texTemplate.tex');
         return $parser->parse($template);

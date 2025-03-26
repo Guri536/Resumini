@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\ResAICont;
-use App\Models\ResAI;
+use App\Http\Controllers\ResHelplerCont;
+use App\Helper\ResAIHelper;
 
 Route::get('/', function(){
     return view('welcome');

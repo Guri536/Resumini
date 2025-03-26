@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\ResAI;
-
+use App\Helper\ResAIHelper;
 class AppServiceProvider extends ServiceProvider
 {
     /**

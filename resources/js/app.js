@@ -116,7 +116,9 @@ async function updateResponse(res, ele) {
         behavior: 'smooth'
     });
     if (res == "Failed To Launch. Retry.") {
-        document.getElementById("qInput").placeholder = "Unable to Connect: Reload, and try again, or later."
+        let ele = document.getElementById("qInput")
+        ele.placeholder = "Unable to Connect: Reload, and try again, or later.";
+        ele.style = "background-color: #AA2222; color: #FFF";
     } else {
         setInput();
     }
@@ -148,7 +150,6 @@ if (AIRes == 0) {
             updateMBox(0, "Greet the User. Keep it short");
         }
     });
-    // var inner = addMessageElement(0);
-    // let ele = document.getElementById(inner);
-    // ele.innerHTML = lorem.generateParagraphs(20);
 }
+
+
