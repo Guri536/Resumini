@@ -45,8 +45,10 @@
 @keyframes waitingAnim{
     from { 
         background-color: white;
+        transform: translateY(0px);
     }
     to { 
         background-color: rgba(255, 255, 255, 0.151);
+        transform: translateY(-3px);
     }
 }

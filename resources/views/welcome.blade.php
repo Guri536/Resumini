@@ -57,5 +57,7 @@
         <div class="h-14.5 hidden lg:block bg-[#00FF00]"></div>
     @endif
 </body>
-
+<script type="module">
+    getTex();
+</script>
 </html>

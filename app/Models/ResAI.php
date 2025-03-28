@@ -6,7 +6,7 @@ use Gemini\Data\Content;
 use Illuminate\Database\Eloquent\Model;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Support\Facades\Storage;
-use PhpLatex_Parser;
+use PhpLatex_PdfLatex;
 use Illuminate\Http\Request;
 use Gemini\Exceptions\ErrorException;
 use Gemini\Enums\Role;
@@ -62,8 +62,10 @@ class ResAI extends Model
         // )->text();
     }
     public static function getDoc(){
-        $parser = new PhpLatex_Parser();
         $template = Storage::get('texTemplate.tex');
-        return $parser->parse($template);
+        $pdflatex = new PhpLatex_PdfLatex();
+        $pdflatex->setBuildDir('D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini\storage\app\private');
+        $res = $pdflatex->compilestring($template);
+        return $res;
     }
 }
