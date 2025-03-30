@@ -11,6 +11,7 @@ export default {
         './resources/views/**/*.blade.php',
         "./resources/views/*.{html,js,php}",
         "./resources/views/**.blade.php",
+        "./resources/js/**.js"
     ],
     theme: {
         extend: {

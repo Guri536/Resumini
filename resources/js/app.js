@@ -1,5 +1,6 @@
 import './bootstrap';
 import { LoremIpsum } from 'lorem-ipsum';
+import { genDisplayElements } from './emdDisplay';
 
 window.AIRes = 0
 window.UserRes = 0
@@ -147,13 +148,15 @@ if (AIRes == 0) {
         },
         method: 'POST',
         success: function () {
-            // updateMBox(0, "Greet the User. Keep it short");
+            updateMBox(0, "Greet the User. Keep it short");
         }
     });
 }
 
 window.getTex = function getTex(){
-    console.log("called");
+    let inner = addMessageElement(0);
+    let dis = document.getElementById(inner);
+    addAnimationToMessage(dis);
     $.ajax({
         url: '/getTex',
         headers: {
@@ -161,24 +164,8 @@ window.getTex = function getTex(){
         },
         method: 'POST',
         success: function(res){
-            console.log(res);
-            let inner = addMessageElement(0);
-            let pdfdis = document.createElement("embed");
-            pdfdis.src = "data:application/pdf;base64, " + res['pdf'] + "#toolbar=0";
-            pdfdis.type = "application/pdf";
-            pdfdis.width = '396vh';
-            pdfdis.height = '545vh';
-            let dis = document.getElementById(inner);
-            let dwnBtn = document.createElement("a");
-            let dwnButton = document.createElement("button");
-            dwnButton.className = "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150";
-            dwnButton.innerHTML = 'PDF';
-            dwnBtn.append(dwnButton)
-            dwnBtn.href="data:image/png;base64, " + res['pdf'];
-            dwnBtn.download = "Output.pdf";
-            dis.append(dwnBtn);
-            dis.append(pdfdis);
-            
+            dis.innerHTML = "";
+            genDisplayElements(dis, res['pdf'], res['tex']);
         }
     })
 }

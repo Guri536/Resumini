@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DeepCopy\Filter\ReplaceFilter;
 use Gemini\Data\Content;
 use Illuminate\Database\Eloquent\Model;
 use Gemini\Laravel\Facades\Gemini;
@@ -40,16 +41,19 @@ class ResAI extends Model
         // } catch (ErrorException $error){
         //     return "Failed To Launch. Retry.";
         // }
-        while($tries < 1){
+        $isError = false;
+        while($tries < 5){
             try{
                 $res = $this->model->sendMessage($prompt);
+                $isError = false;
                 break;
             } catch (ErrorException $error){
-                $res = "Failed To Launch. Retry.";
+                $res = "Failed to Launch. Error: " . $error;
+                $isError = true;
             }
             $tries++;
         }
-        if($res == "Failed To Launch. Retry.") return $res;
+        if($isError) return $res;
         $res = $res->text();
         array_push($this->chat, Content::parse(part: $res, role: Role::MODEL));
         session()->put('chat', $this->chat);
@@ -66,6 +70,7 @@ class ResAI extends Model
         $pdflatex = new PhpLatex_PdfLatex();
         $pdflatex->setBuildDir('D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini\storage\app\private');
         $res = $pdflatex->compilestring($template);
-        return $res;
+        $texRes = str_replace(".pdf", ".tex", $res);
+        return array($res, $texRes);
     }
 }

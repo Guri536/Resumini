@@ -49,7 +49,7 @@
         <main class="p-5 w-full h-[83vh] max-h-[83vh] bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
         </main>
         <div class="flex w-full h-auto justify-center pt-2 rounded-2xl">
-            <x-input class="w-1/2" placeholder="Answer Baltimore For Further Process" autofocus onkeydown="inputEnter();" id="qInput">
+            <x-input class="w-1/2" autofocus onkeydown="inputEnter();" id="qInput">
             </x-input>
         </div>
     </div>
@@ -57,7 +57,4 @@
         <div class="h-14.5 hidden lg:block bg-[#00FF00]"></div>
     @endif
 </body>
-<script type="module">
-    getTex();
-</script>
 </html>
