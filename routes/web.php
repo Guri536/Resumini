@@ -2,30 +2,48 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Http\Controllers\ResAICont;
 use App\Models\ResAI;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+
 
 Route::get('/', function(){
     return view('welcome');
 });
 
-Route::post('/getRes', [ResAICont::class, 'getRes']);
-
-Route::post('/clearChat', function(){
-    session()->forget('chat');
+Route::post('/getRes', function(Request $r){
+    return response()->json(app(ResAI::class)->getRes($r->input("prompt")));
 });
 
-Route::post('getTex', function(){
-    $res = ResAI::getDoc();
+Route::post('/clearChat', function(){
+    Cache::forget("gemini_chat");
+    Cache::forget("tex_doc");
+    Cache::forget("res_com");
+    Cache::forget("pers_info");
+    Cache::forget("prof_info");
+});
+
+Route::post('getTex', function(Request $r){
+    $res = ResAI::getDoc($r->input('tex'));
     $tex = base64_encode(file_get_contents($res[1]));
     $pdf = base64_encode(file_get_contents($res[0]));
     return response()->json(['pdf' => $pdf, 'tex' => $tex]);
 });
 
 Route::get('/test', function(){
-    $test1 = "Failed to Launch. Error: " . "Things";
-    if(subStr($test1, 0, 25) == "Failed to Launch. Error: ") return "true";
-    return $test1 . "<BR>";
+    $test = "Baskwad 
+    asdwdi asda
+    d asiodjqw das
+    d wiqdj asod
+    <--Tex-Start-->" 
+    . Storage::get('texTemplate.tex') . 
+    "<--Tex-End-->
+    akjdnaosdnaskdd aidd
+    a dasda sdad adas
+    d daspd";
+    preg_match('/<--Tex-Start-->(.+?)<--Tex-End-->/s', $test, $res);
+    echo "<script>console.log('" . json_encode(trim($res[1])) . "')</script>";
+    return $res[1];
 });
 
 Route::middleware([

@@ -1,19 +1,20 @@
 import './bootstrap';
 import { LoremIpsum } from 'lorem-ipsum';
 import { genDisplayElements } from './emdDisplay';
+import { crtEleClass } from './crtEle';
 
 window.AIRes = 0
 window.UserRes = 0
-const lorem = new LoremIpsum({
-    sentencesPerParagraph: {
-        max: 8,
-        min: 4
-    },
-    wordsPerSentence: {
-        max: 16,
-        min: 4
-    }
-});
+// const lorem = new LoremIpsum({
+//     sentencesPerParagraph: {
+//         max: 8,
+//         min: 4
+//     },
+//     wordsPerSentence: {
+//         max: 16,
+//         min: 4
+//     }
+// });
 
 
 window.inputEnter = function inputEnter() {
@@ -49,73 +50,73 @@ function getMidTemplate(type) {
 }
 
 function getAnimCircle(delay) {
-    let circle = document.createElement("div");
-    circle.className = "animCircle";
+    let circle = crtEleClass("div", "animCircle");
     circle.style = "animation-delay: " + delay + "s";
     return circle;
 }
 
-function addAnimEle(ele, delay) {
-    let box = document.getElementById(ele);
+function addAnimEle(box, delay) {
     box.append(getAnimCircle(delay));
 }
 
 function addMessageElement(type) {
     let mBox = document.getElementById('chatBox');
-    var outter = document.createElement("div");
-    var mid = document.createElement("div");
-    var inner = document.createElement("div");
-    outter.className = getOuterTemplate(type);
-    mid.className = getMidTemplate(type);
-    inner.className = "text-gray-800";
+    var outter = crtEleClass("div", getOuterTemplate(type))
+    var mid = crtEleClass("div", getMidTemplate(type));
+    var inner = crtEleClass("div", "text-gray-800");
     inner.id = (type == 0 ? "Balt" + AIRes++ : "User" + UserRes++)
     outter.appendChild(mid);
     mid.appendChild(inner);
     mBox.appendChild(outter);
-    return inner.id;
+    return inner;
 }
 
 function addAnimationToMessage(inner) {
-    var animBox = document.createElement("div");
+    var animBox = crtEleClass("div", "flex justify-center relative");
     animBox.id = "anim1";
-    animBox.className = "flex justify-center relative";
     inner.append(animBox);
     var animDelay = 0.0;
-    addAnimEle(animBox.id, animDelay);
-    animDelay += 0.15;
-    addAnimEle(animBox.id, animDelay);
-    animDelay += 0.15;
-    addAnimEle(animBox.id, animDelay);
+    for(let i = 0; i < 3; i++){
+        addAnimEle(animBox, animDelay);
+        animDelay += 0.15;
+    }
 }
 
 function updateMBox(type, text) {
     let inner = addMessageElement(type);
-    document.getElementById(inner).scrollIntoView({ behavior: 'smooth' })
+    inner.scrollIntoView({ behavior: 'smooth' })
     if (type == 1) {
-        document.getElementById(inner).append(text)
+        inner.append(text)
         updateMBox(0, text)
     } else {
-        addAnimationToMessage(document.getElementById(inner));
+        addAnimationToMessage(inner);
         ajaxReq(text, inner);
     }
 }
 
-async function updateResponse(res, ele) {
-    let inner = document.getElementById(ele);
+async function updateResponse(res, inner) {
+
     inner.innerHTML = "";
+    const pointer = crtEleClass("span", "");
+    pointer.innerHTML = "█";
+    const textBox = crtEleClass("div");
+    inner.append(textBox);
+    inner.append(pointer);
     for (var i in res) {
         if (res[i] == '\n') {
-            inner.innerHTML += "<br>";
+            textBox.innerHTML += "<br>";
         } else {
-            inner.innerHTML += res[i];
+            textBox.innerHTML += res[i];
         }
         inner.scrollIntoView({ behavior: 'smooth', block: 'end' })
-        await new Promise(resolve => setTimeout(resolve, 10));
+        // await new Promise(resolve => setTimeout(resolve, 0));
     }
+    pointer.remove();
     document.getElementById("chatBox").scrollTo({
         top: document.getElementById("chatBox").scrollHeight,
         behavior: 'smooth'
     });
+
     if (res == "Failed To Launch. Retry.") {
         let ele = document.getElementById("qInput")
         ele.placeholder = "Unable to Connect: Reload, and try again, or later.";
@@ -135,7 +136,14 @@ function ajaxReq(prompt, ele) {
         data: {
             'prompt': prompt,
         },
-        success: res => updateResponse(res, ele)
+        success: function(res){ 
+            console.log(res['original']);
+            console.log(res['original']['con']);
+            updateResponse(res['original']['res'], ele);
+            if('tex' in res['original']){
+                getTex(res['original']['tex'])
+            }
+        }
     });
 }
 
@@ -147,25 +155,27 @@ if (AIRes == 0) {
             'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
         method: 'POST',
-        success: function () {
-            updateMBox(0, "Greet the User. Keep it short");
+        success: function (res) {
+            updateMBox(0, "Generate");
         }
     });
 }
 
-window.getTex = function getTex(){
+function getTex(tex){
     let inner = addMessageElement(0);
-    let dis = document.getElementById(inner);
-    addAnimationToMessage(dis);
+    addAnimationToMessage(inner);
     $.ajax({
         url: '/getTex',
         headers: {
             'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
+        data:{
+            'tex' : tex
+        },
         method: 'POST',
         success: function(res){
-            dis.innerHTML = "";
-            genDisplayElements(dis, res['pdf'], res['tex']);
+            inner.innerHTML = "";
+            genDisplayElements(inner, res['pdf'], res['tex']);
         }
     })
 }
