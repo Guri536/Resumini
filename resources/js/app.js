@@ -16,30 +16,32 @@ window.UserRes = 0
 //     }
 // });
 
-
-window.inputEnter = function inputEnter() {
-    if (event.key == 'Enter') {
-        let input = document.getElementById('qInput');
-        if (input.value == "" || input.value == null) {
-            null
-        } else {
-            updateMessage();
+let input = document.getElementById('qInput');
+if (input) {
+    input.addEventListener('input', autoResize);
+    function autoResize() {
+        input.style.height = 'auto';
+        let scrl = input.scrollHeight;
+        input.style.height = Math.min(scrl, 120) + 'px';
+        input.style.overflowY = scrl > 120 ? 'auto' : 'hidden';
+    }
+    autoResize();
+    input.addEventListener('keydown', function (event) {
+        if (event.key == 'Enter' && !event.shiftKey && (input.value != "" || input.value != null)) {
+            updateMBox(1, input.value);
             setInput();
         }
-    }
+    });
 }
+
+
 
 function setInput() {
-    let input = document.getElementById('qInput');
     input.value = "";
     input.disabled = !input.disabled;
-    input.placeholder = input.disabled ? "Waiting For Response" : "Converse With Baltimore";
+    input.placeholder = input.disabled ? "Waiting For Response" : "Converse With Reshumi";
     if (!input.disabled) input.focus();
-}
-
-function updateMessage() {
-    let input = document.getElementById('qInput');
-    updateMBox(1, input.value);
+    autoResize();
 }
 
 function getOuterTemplate(type) {
@@ -76,7 +78,7 @@ function addAnimationToMessage(inner) {
     animBox.id = "anim1";
     inner.append(animBox);
     var animDelay = 0.0;
-    for(let i = 0; i < 3; i++){
+    for (let i = 0; i < 3; i++) {
         addAnimEle(animBox, animDelay);
         animDelay += 0.15;
     }
@@ -109,18 +111,16 @@ async function updateResponse(res, inner) {
             textBox.innerHTML += res[i];
         }
         inner.scrollIntoView({ behavior: 'smooth', block: 'end' })
-        // await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise(resolve => setTimeout(resolve, 2));
     }
     pointer.remove();
     document.getElementById("chatBox").scrollTo({
         top: document.getElementById("chatBox").scrollHeight,
         behavior: 'smooth'
     });
-
     if (res == "Failed To Launch. Retry.") {
-        let ele = document.getElementById("qInput")
-        ele.placeholder = "Unable to Connect: Reload, and try again, or later.";
-        ele.style = "background-color: #AA2222; color: #FFF";
+        input.placeholder = "Unable to Connect: Reload, and try again, or later.";
+        input.style = "background-color: #AA2222; color: #FFF";
     } else {
         setInput();
     }
@@ -136,18 +136,18 @@ function ajaxReq(prompt, ele) {
         data: {
             'prompt': prompt,
         },
-        success: function(res){ 
-            console.log(res['original']);
+        success: function (res) {
+            // console.log(res['original']);
             // console.log(res['original']['con']);
             updateResponse(res['original']['res'], ele);
-            if('tex' in res['original']){
+            if ('tex' in res['original']) {
                 getTex(res['original']['tex'])
             }
         }
     });
 }
 
-if (AIRes == 0) {
+if (AIRes == 0 && input) {
     setInput();
     $.ajax({
         url: '/clearChat',
@@ -159,9 +159,9 @@ if (AIRes == 0) {
             updateMBox(0, "Generate");
         }
     });
-}
+} 
 
-function getTex(tex){
+function getTex(tex) {
     let inner = addMessageElement(0);
     addAnimationToMessage(inner);
     $.ajax({
@@ -169,11 +169,11 @@ function getTex(tex){
         headers: {
             'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         },
-        data:{
-            'tex' : tex
+        data: {
+            'tex': tex
         },
         method: 'POST',
-        success: function(res){
+        success: function (res) {
             inner.innerHTML = "";
             genDisplayElements(inner, res['pdf'], res['tex']);
         }
