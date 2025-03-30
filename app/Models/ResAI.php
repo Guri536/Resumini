@@ -25,8 +25,7 @@ class ResAI extends Model
         Hello Gemini, you are an AI helper, here to help users make thier Resumes.
         Your name is now, Reshumi, and you must refer to yourself as that.
         The application works by implementing a .tex document, which you will edit as per user\'s resposnse.
-        Keep the chat strictly formal.
-        Don\'t ask user for a .tex document. It will be loaded by the server and sent within the prompt for you to edit.
+        Don\'t ask user for a .tex document. It will be loaded by the server and sent within the prompt for you to edit. The user will never see the .tex document, so don\'t mention it to the user.
         With the user\'s response and tex document, you also need to send back a few conditions for server to read and process within the response you will provide.
         For responses you will be provided a structured prompt, and you need to return a structured response aswell, it will all be mentioned with the prompt.
         ', role: Role::USER)]);
@@ -39,7 +38,7 @@ class ResAI extends Model
         $this->template = Storage::get('texTemplate.tex');
     }
 
-    public function getRes($prompt)
+    public function getRes($prompt, $triesTillError, $gotError)
     {
         array_push($this->chat, Content::parse(part: $prompt, role: Role::USER));
         $tries = 0;
@@ -47,7 +46,7 @@ class ResAI extends Model
         $resume_complete = Cache::get('res_com', 'F');
         $pers_info_provided = Cache::get('pers_info', 'F');
         $prof_info_provided = Cache::get('prof_info', 'F');
-        while ($tries < 5) {
+        while ($tries < $triesTillError) {
             try {
                 $res = $this->model->sendMessage(
                     "
@@ -56,7 +55,7 @@ class ResAI extends Model
                 2. Part within <--Instructions-Start--> and <--Instructions-End--> are requirements for the response which will be generated.
                 3. Part within <--Tex-Start--> and <--Tex-End--> is the tex document which will become the resume, there are helpful comments within the document for you to make appropriate changes. DON'T USE ADDITIONAL PACKAGES. You are allowed to change the variables in the doc, and basic structure of the doc. You can also add information on behalf of the User.
                 4. Part between <--Con-Start--> and <--Con-End--> are boolean conditions for you to set and read, you can only set the value as T or F, as in True or False. The server require those values for processing, and you also can take actions according to those variables. What those conditions mean, is also provided within '#' and '#'. Here is an example: 'Resume_Complete = T/F #Is Resume complete and should be compiled and sent to the user.#'. Based on example, you can only change the boolean value.
-                5. The response you need to send back, needs to strictly follow the upcoming structure. 
+                5. THIS IS IMPORTANT: The response you need to send back, needs to strictly follow the structure as follows:
                     a. Your Response to User needs to be within, <--Res-Start--> and <--Res-End-->.
                     b. The .tex document which you have edited needs to be within <--Tex-Start--> and <--Tex-End-->.
                     c. The conditions need to be returned within <--Con-Start--> and <--Con-End-->, and all the conditions which will be passed to you NEED to be send back, no more, no less. Also, send response WITHOUT the descriptoins, which are within '#' and '#', DON'T ADD THOSE.
@@ -65,11 +64,12 @@ class ResAI extends Model
                     $prompt 
                 <--User-End-->
                 <--Instructions-Start-->
-                    Generate a short response.
-                    Based on the user's response, continue else ask the user again for an appropritate response.
-                    You are allowed to edit the tex document.
-                    You are allowed to read and change the variables, and make changes based on the varibales passed.
-                    Return back a response the above stated structure. YOU NEED TO FOLLOW THE STRUCTURE VERY STRICTLY, IF YOU HAVE A STARTING ELEMENT, YOU NEED TO CLOSE IT. THIS SHOULD BE YOUR UPMOST PRIORITY.
+                    1. Generate a friendly response, keep it somewhat short. Dont' use multiple paras.
+                    2. Based on the user's response, continue else ask the user again for an appropritate response.
+                    3. You are allowed to edit the tex document, you can add additional context to descriptions by yourself all based on user's provided info. It should be enough to fill the resume. Suppose, if the user has not added description to their Uni Experience, then you are free to do it on the user's behalf. Explain skills on user's behalf.
+                    4. You are allowed to read and change the variables, and make changes based on the varibales passed.
+                    5. Return back a response the above stated structure. YOU NEED TO FOLLOW THE STRUCTURE VERY STRICTLY, IF YOU HAVE A STARTING ELEMENT, YOU NEED TO CLOSE IT. THIS SHOULD BE YOUR UPMOST PRIORITY. ONLY USE '<--{}-START/END-->' FORMAT.
+                    6. Have a friendly conversation with the user. Second highest priority.
                 <--Instructions-End-->
                 <--Tex-Start-->
                     $this->template 
@@ -97,6 +97,7 @@ class ResAI extends Model
             array_push($this->chat, Content::parse(part: trim($toUser[1]), role: Role::MODEL));
             Cache::put("gemini_chat", $this->chat, now()->addHours(24));
         } catch (Exception $error) {
+            if(!$gotError) return $this->getRes($prompt, 1, true);
             return response()->json(['res' => "Response Error: ". strtok($error, '#'), 'comp' => $res]);
         }
 
@@ -104,6 +105,7 @@ class ResAI extends Model
             preg_match('/<--Tex-Start-->(.+?)<--Tex-End-->/s', $res, $texDoc);
             Cache::put("tex_doc", trim($texDoc[1]), now()->addHours(24));
         } catch (Exception $error) {
+            if(!$gotError) return $this->getRes($prompt, 1, true);
             return response()->json(['res' => "Tex Document Error: " . strtok($error, '#'), 'comp' => $res]);
         }
 
@@ -111,6 +113,7 @@ class ResAI extends Model
             preg_match('/<--Con-Start-->(.+?)<--Con-End-->/s', $res, $conditions);
             $sepCon = explode("\n", trim($conditions[1]));
         } catch (Exception $error) {
+            if(!$gotError) return $this->getRes($prompt, 1, true);
             return response()->json(['res' => "Conditional Error: " . strtok($error, '#'), 'comp' => $res]);
         }
 
@@ -119,6 +122,7 @@ class ResAI extends Model
             $pers_info_provided = $sepCon[1][-1];
             $prof_info_provided = $sepCon[2][-1];
         } catch (Exception $error) {
+            if(!$gotError) return $this->getRes($prompt, 1, true);
             return response()->json(['res' => "Conditional Parse Error: " . $conditions . " : " . strtok($error, '#'), 'comp' => $res]);
         }
 

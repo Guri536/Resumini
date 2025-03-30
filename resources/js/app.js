@@ -138,7 +138,7 @@ function ajaxReq(prompt, ele) {
         },
         success: function(res){ 
             console.log(res['original']);
-            console.log(res['original']['con']);
+            // console.log(res['original']['con']);
             updateResponse(res['original']['res'], ele);
             if('tex' in res['original']){
                 getTex(res['original']['tex'])

@@ -12,7 +12,7 @@ Route::get('/', function(){
 });
 
 Route::post('/getRes', function(Request $r){
-    return response()->json(app(ResAI::class)->getRes($r->input("prompt")));
+    return response()->json(app(ResAI::class)->getRes($r->input("prompt"), 5, false));
 });
 
 Route::post('/clearChat', function(){
