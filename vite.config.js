@@ -5,7 +5,7 @@ import {nodePolyfills} from 'vite-plugin-node-polyfills'
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/topBarMenu.js'],
             refresh: true,
         }),
         nodePolyfills(),

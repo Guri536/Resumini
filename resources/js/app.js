@@ -16,15 +16,17 @@ window.UserRes = 0
 //     }
 // });
 
+let autoResize = null;
+
 let input = document.getElementById('qInput');
 if (input) {
-    input.addEventListener('input', autoResize);
-    function autoResize() {
+    autoResize = function autoResize() {
         input.style.height = 'auto';
         let scrl = input.scrollHeight;
         input.style.height = Math.min(scrl, 120) + 'px';
         input.style.overflowY = scrl > 120 ? 'auto' : 'hidden';
     }
+    input.addEventListener('input', autoResize);
     autoResize();
     input.addEventListener('keydown', function (event) {
         if (event.key == 'Enter' && !event.shiftKey && (input.value != "" || input.value != null)) {
@@ -34,12 +36,10 @@ if (input) {
     });
 }
 
-
-
 function setInput() {
     input.value = "";
     input.disabled = !input.disabled;
-    input.placeholder = input.disabled ? "Waiting For Response" : "Converse With Reshumi";
+    input.placeholder = input.disabled ? "Waiting For Response" : "Ask Reshumi";
     if (!input.disabled) input.focus();
     autoResize();
 }
@@ -65,7 +65,7 @@ function addMessageElement(type) {
     let mBox = document.getElementById('chatBox');
     var outter = crtEleClass("div", getOuterTemplate(type))
     var mid = crtEleClass("div", getMidTemplate(type));
-    var inner = crtEleClass("div", "text-gray-800");
+    var inner = crtEleClass("div", "text-gray-100");
     inner.id = (type == 0 ? "Balt" + AIRes++ : "User" + UserRes++)
     outter.appendChild(mid);
     mid.appendChild(inner);
@@ -88,7 +88,7 @@ function updateMBox(type, text) {
     let inner = addMessageElement(type);
     inner.scrollIntoView({ behavior: 'smooth' })
     if (type == 1) {
-        inner.append(text)
+        inner.innerHTML = (text.replace(/\n/g,'<br>'));
         updateMBox(0, text)
     } else {
         addAnimationToMessage(inner);
@@ -97,7 +97,6 @@ function updateMBox(type, text) {
 }
 
 async function updateResponse(res, inner) {
-
     inner.innerHTML = "";
     const pointer = crtEleClass("span", "");
     pointer.innerHTML = "█";
@@ -148,7 +147,7 @@ function ajaxReq(prompt, ele) {
 }
 
 if (AIRes == 0 && input) {
-    setInput();
+    // setInput();
     $.ajax({
         url: '/clearChat',
         headers: {
@@ -156,7 +155,7 @@ if (AIRes == 0 && input) {
         },
         method: 'POST',
         success: function (res) {
-            updateMBox(0, "Generate");
+            // updateMBox(0, "Generate");
         }
     });
 } 

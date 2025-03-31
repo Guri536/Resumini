@@ -20,10 +20,13 @@ export default {
             },
             colors: {
                 'backTheme' : '#495057',
-                'primary' : '#212529', 
-                'secondary': '#50406c',
-                'ternary': '#adb5bd',
-                'quat': '#a2d2ff'
+                'primary' : '#FDFBEE', 
+                'secondary': '#57B4BA',
+                'ternary': '#4D787A',
+                'quat': '#4F959D',
+                'text-primary': '#eaeaea',
+                'brd-primary': '#c0c0c0de',
+                'hvr-brd-primary': '#e7e7e7'
             },
         },
 

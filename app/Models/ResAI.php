@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Gemini\Exceptions\ErrorException;
 use Gemini\Enums\Role;
 use Illuminate\Support\Facades\Cache;
+use Gemini\Data\GenerationConfig;
 
 class ResAI extends Model
 {
