@@ -136,14 +136,14 @@ function ajaxReq(prompt, ele) {
             'prompt': prompt,
         },
         success: function (res) {
-            console.log(res[0])
-            console.log(res[0]['tex_doc']);
-            // console.log(res['original']);
-            // console.log(res['original']['con']);
-            updateResponse(res[0]['response_text'], ele);
-            // if ('tex' in res['original']) {
-            //     getTex(res['original']['tex'])
-            // }
+            console.log(res['original'])
+            // console.log(res[0]['tex_doc']);
+            // // console.log(res['original']);
+            // // console.log(res['original']['con']);
+            updateResponse(res['original']['response_text'], ele);
+            if ('tex' in res['original']) {
+                getTex(res['original']['tex'])
+            }
         }
     });
 }
