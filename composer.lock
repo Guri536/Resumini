@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "338c06fe41c213b478bbee6063020de4",
+    "content-hash": "f551d643147fd5ee24c2d64a92bf8cfc",
     "packages": [
         {
             "name": "amphp/amp",
@@ -903,16 +903,16 @@
         },
         {
             "name": "google-gemini-php/client",
-            "version": "1.0.15",
+            "version": "1.0.7-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google-gemini-php/client.git",
-                "reference": "6dca9a5e6a6de39b230fe4593a8d041efd02e34e"
+                "reference": "7ba35de3d94c22ca259d070dd96a996e5650dc0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google-gemini-php/client/zipball/6dca9a5e6a6de39b230fe4593a8d041efd02e34e",
-                "reference": "6dca9a5e6a6de39b230fe4593a8d041efd02e34e",
+                "url": "https://api.github.com/repos/google-gemini-php/client/zipball/7ba35de3d94c22ca259d070dd96a996e5650dc0a",
+                "reference": "7ba35de3d94c22ca259d070dd96a996e5650dc0a",
                 "shasum": ""
             },
             "require": {
@@ -926,6 +926,9 @@
                 "mockery/mockery": "^1.6.7",
                 "pestphp/pest": "^2.30",
                 "phpstan/phpstan": "^1.10"
+            },
+            "suggest": {
+                "ext-fileinfo": "Reads upload file size and mime type if not provided"
             },
             "type": "library",
             "autoload": {
@@ -960,77 +963,9 @@
             ],
             "support": {
                 "issues": "https://github.com/google-gemini-php/client/issues",
-                "source": "https://github.com/google-gemini-php/client/tree/1.0.15"
+                "source": "https://github.com/google-gemini-php/client/tree/1.0.7-beta"
             },
-            "time": "2024-12-29T12:53:49+00:00"
-        },
-        {
-            "name": "google-gemini-php/laravel",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/google-gemini-php/laravel.git",
-                "reference": "32759b1feb559d7cdba8d3c673308b61d8d9ab2e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/google-gemini-php/laravel/zipball/32759b1feb559d7cdba8d3c673308b61d8d9ab2e",
-                "reference": "32759b1feb559d7cdba8d3c673308b61d8d9ab2e",
-                "shasum": ""
-            },
-            "require": {
-                "google-gemini-php/client": "^1.0",
-                "laravel/framework": "^9.0|^10.0|^11.0|^12.0",
-                "php": "^8.1.0"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^7.8.1",
-                "laravel/pint": "^1.13.6",
-                "pestphp/pest": "^2.27.0",
-                "pestphp/pest-plugin-arch": "^2.4.1",
-                "phpstan/phpstan": "^1.10.47",
-                "symfony/var-dumper": "^6.4.0|^7.0.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Gemini\\Laravel\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gemini\\Laravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fatih AYDIN",
-                    "email": "aydinfatih52@gmail.com"
-                }
-            ],
-            "description": "Google Gemini PHP for Laravel is a supercharged PHP API client that allows you to interact with the Google Gemini AI API",
-            "keywords": [
-                "Gemini",
-                "api",
-                "client",
-                "language",
-                "laravel",
-                "natural",
-                "php",
-                "processing",
-                "sdk"
-            ],
-            "support": {
-                "issues": "https://github.com/google-gemini-php/laravel/issues",
-                "source": "https://github.com/google-gemini-php/laravel/tree/1.0.2"
-            },
-            "time": "2025-02-27T05:50:33+00:00"
+            "time": "2024-12-29T13:09:40+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -9219,6 +9154,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "google-gemini-php/client": 10,
         "xemlock/php-latex": 20
     },
     "prefer-stable": true,

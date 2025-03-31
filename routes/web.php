@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Gemini\Data\Content;
+use Gemini\Enums\DataType;
+use Gemini\Enums\ResponseMimeType;
+use GuzzleHttp\Psr7\Response;
 
 Route::get('/', function (Request $r) {
     return view('welcome');
@@ -46,12 +50,30 @@ Route::post('getTex', function (Request $r) {
 });
 
 Route::get('/test', function () {
-    $model = Gemini\Laravel\Facades\Gemini::generativeModel('gemini-2.0-flash');
-    $res =  $model->withGenerationConfig(
+    $model = Gemini::client(getenv('GEMINI_API_KEY'))->generativeModel('gemini-2.0-flash')->withGenerationConfig(
         generationConfig: new Gemini\Data\GenerationConfig(
-            temperature: 0.7
+            responseMimeType: ResponseMimeType::APPLICATION_JSON,
+            responseSchema: new Gemini\Data\Schema(
+                type: DataType::ARRAY,
+                items: new Gemini\Data\Schema(
+                    type: DataType::OBJECT,
+                    properties:[
+                        'text' => new Gemini\Data\Schema(type: DataType::STRING),
+                        'tex' => new Gemini\Data\Schema(type: DataType::STRING)
+                    ]
+                )
+            )
         )
-    )->generateContent("List 5 popular cookie recipes with cooking time");
+    )->startChat(
+        history: [
+            Gemini\Data\Content::parse(part: '        Hello Gemini, you are an AI helper, here to help users make thier Resumes.
+        Your name is now, Reshumi, and you must refer to yourself as that.
+        The application works by implementing a .tex document, which you will edit as per user\'s resposnse.')
+        ]
+    );
+    $res =  $model->sendMessage("Generate me 3 tex documents, with their desc");
+    $res2 = $model->sendMessage("Now, give me only one document with set variables using newcommand, and also their desc in thet text");
+    return array($res->json(), $res2->json());
 })->name('test');
 
 Route::middleware([
