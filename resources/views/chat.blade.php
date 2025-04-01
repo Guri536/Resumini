@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Laravel</title>
+    <title>Resumini</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -64,7 +64,7 @@
             @auth
             <textarea name="Text" id="qInput" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:border-gray-200 disabled:bg-gray-400 disabled:text-gray-500 disabled:shadow-none resize-none w-1/2 h-auto" rows='1' placeholder="Ask Reshumi"></textarea>
             @else
-            <label class="border-gray-400  border-2 rounded-md shadow-sm bg-gray-200 justify-center text-center w-1/2 h-auto p-2" value="what">
+            <label class="border-gray-400  border-2 rounded-md shadow-sm bg-gray-200 justify-center text-center w-1/2 h-auto p-2">Please Login.</label>
             @endauth
         </div>
     </div>

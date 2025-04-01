@@ -5,11 +5,16 @@ use Illuminate\Http\Request;
 use App\Models\ResAI;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-Route::get('/', function (Request $r) {
-    return view('welcome');
+Route::get('/', function(Request $r){
+    return view('home');
+})->name('home');
+
+Route::get('/chat', function (Request $r) {
+    return view('chat');
 })->name("chat");
 
 Route::post('/loginC', function (Request $r) {

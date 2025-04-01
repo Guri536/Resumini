@@ -1,11 +1,6 @@
 @if (Route::has('login'))
-<nav class="flex items-center justify-end gap-4">
+<nav class="flex justify-left items-left gap-4">
     @auth
-    <!-- <a
-        href="{{ url('/dashboard') }}"
-        class="inline-block px-5 py-1.5 border-brd-primary hover:border-hvr-brd-primary border text-text-primary rounded-sm text-sm leading-normal">
-        Dashboard
-    </a> -->
     <div class="relative inline-block text-left">
         <!-- <div> -->
             <button type="button" class="inline-flex justify-center w-full rounded-md border border-brd-primary shadow-sm px-4 py-2 text-sm font-medium text-text-primary hover:border-hvr-brd-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="menu-button" aria-expanded="true" aria-haspopup="true">

@@ -147,7 +147,7 @@ function ajaxReq(prompt, ele) {
 }
 
 if (AIRes == 0 && input) {
-    // setInput();
+    setInput();
     $.ajax({
         url: '/clearChat',
         headers: {
@@ -155,7 +155,7 @@ if (AIRes == 0 && input) {
         },
         method: 'POST',
         success: function (res) {
-            // updateMBox(0, "Generate");
+            updateMBox(0, "Generate");  
         }
     });
 } 
