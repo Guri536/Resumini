@@ -26,6 +26,7 @@
     <div class="child items-center min-h-[90vh] max-h-[90vh] justify-center w-full p-2 flex flex-col">
         @auth
         <main class="p-5 flex-grow xl:w-3/4 w-full bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
+            <x-message-box>Here you go!</x-message-box>
         </main>
         @else
         <main class="p-5 xl:w-3/4 w-full bg-primary rounded-2xl justify-center items-center text-center align-middle flex flex-col flex-grow" id="chatBox">

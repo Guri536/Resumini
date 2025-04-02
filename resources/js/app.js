@@ -48,7 +48,7 @@ function getOuterTemplate(type) {
     return "flex w-full justify-" + (type == 0 ? "start" : "end");
 }
 function getMidTemplate(type) {
-    return "p-2 min-w-[20px] w-auto max-w-6xl text-wrap mb-2 text-justify relative " + (type == 0 ? "bg-ternary text-ternary rounded-r-lg rounded-tl-lg invBor" : "bg-quat text-quat rounded-l-lg rounded-tr-lg invBor2")
+    return "p-2 min-w-[20px] w-auto max-w-3xl text-wrap mb-2 text-justify relative " + (type == 0 ? "bg-ternary text-ternary rounded-r-lg rounded-tl-lg invBor" : "bg-quat text-quat rounded-l-lg rounded-tr-lg invBor2")
 }
 
 function getAnimCircle(delay) {
@@ -136,7 +136,7 @@ function ajaxReq(prompt, ele) {
             'prompt': prompt,
         },
         success: function (res) {
-            // console.log(res['original']);
+            console.log(res['original']);
             // console.log(res['original']['con']);
             updateResponse(res['original']['res'], ele);
             if ('tex' in res['original']) {
@@ -155,7 +155,7 @@ if (AIRes == 0 && input) {
         },
         method: 'POST',
         success: function (res) {
-            updateMBox(0, "Generate");  
+            // updateMBox(0, "Generate");  
         }
     });
 } 
