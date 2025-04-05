@@ -20,9 +20,7 @@
 </head>
 
 <body class="parent bg-backTheme text-[#1b1b18] items-center lg:justify-center min-h-screen max-h-screen m-0">
-    <header class="flex py-2 px-5 justify-end w-full lg:max-w-full text-sm mb-3 not-has-[nav]:hidden bg-ternary rounded-b-xl">
-        <x-top-bar-auth />
-    </header>
+    <x-topnavbar></x-topnavbar>
     <div class="child items-center min-h-[90vh] max-h-[90vh] justify-center w-full p-2 flex flex-col">
         @auth
         <main class="p-5 flex-grow xl:w-3/4 w-full bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">

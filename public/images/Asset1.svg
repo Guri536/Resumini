@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 910.47 759.51">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#New_Gradient_Swatch_1-2);
+        filter: url(#drop-shadow-1);
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-3 {
+        fill: url(#New_Gradient_Swatch_1);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="300.97" y1="100.22" x2="568.58" y2="100.22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d6645d"/>
+      <stop offset=".27" stop-color="#bc688e"/>
+      <stop offset=".52" stop-color="#4f87ed"/>
+      <stop offset=".78" stop-color="#9476c5"/>
+      <stop offset=".89" stop-color="#bc688e"/>
+      <stop offset="1" stop-color="#d6645d"/>
+    </linearGradient>
+    <linearGradient id="New_Gradient_Swatch_1" data-name="New Gradient Swatch 1" x1="40.9" y1="281.25" x2="566.31" y2="281.25" gradientTransform="translate(75.88 -64.32) rotate(13.81)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#439ddf"/>
+      <stop offset=".52" stop-color="#4f87ed"/>
+      <stop offset=".78" stop-color="#9476c5"/>
+      <stop offset=".89" stop-color="#bc688e"/>
+      <stop offset="1" stop-color="#d6645d"/>
+    </linearGradient>
+    <linearGradient id="New_Gradient_Swatch_1-2" data-name="New Gradient Swatch 1" x1="-211.23" y1="501.56" x2="346.51" y2="501.56" gradientTransform="translate(540.32 -64.32) rotate(166.19) scale(1 -1)" xlink:href="#New_Gradient_Swatch_1"/>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="5" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="3"/>
+      <feFlood flood-color="#000" flood-opacity=".38"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer_1">
+    <g>
+      <path class="cls-2" d="M301.97,140.94S449.54,153.02,568.54,0c0,0,1.47,55.02-12.55,76.4-11.09,16.91-74.11,85.34-245.68,124.04,0,0-12.97-49.12-8.33-59.5Z"/>
+      <path class="cls-3" d="M97.53,576.97C594.82,380.06,619.1,136.51,615.99,71.39c-.48-9.99-4.2-19.55-10.61-27.23L568.54,0S565.52,406.74,0,415.89l97.53,161.08Z"/>
+      <path class="cls-1" d="M834.81,749.58C434.77,534.09,252.49,286.66,254.37,216.21c.33-12.25,4.82-24.02,12.67-33.42l34.93-41.85s28.6,348.25,594.12,357.41l-61.28,251.23Z"/>
+    </g>
+  </g>
+</svg>

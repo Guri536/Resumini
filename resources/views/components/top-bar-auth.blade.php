@@ -25,14 +25,14 @@
     @else
     <a
         href="{{ route('login') }}"
-        class="inline-block px-5 py-1.5 text-text-primary border border-brd-primary hover:border-hvr-brd-primary rounded-sm text-sm leading-normal">
+        class="inline-block px-1 py-1.5 text-text-primary border border-brd-primary hover:border-hvr-brd-primary rounded-sm text-xs leading-normal md:px-5 md:text-sm">
         Log in
     </a>
 
     @if (Route::has('register'))
     <a
         href="{{ route('register') }}"
-        class="inline-block px-5 py-1.5 border-brd-primary hover:border-hvr-brd-primary border text-text-primary rounded-sm text-sm leading-normal">
+        class="inline-block px-1 py-1.5 border-brd-primary hover:border-hvr-brd-primary border text-text-primary rounded-sm text-xs leading-normal md:px-5 md:text-sm">
         Register
     </a>
     @endif
