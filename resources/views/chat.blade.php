@@ -7,9 +7,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Resumini</title>
 
+    <link rel="icon" href="{{ url('images/ResuminiLogo_1.svg') }}">
+
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -19,12 +25,12 @@
     <!-- RESAI -->
 </head>
 
-<body class="parent bg-backTheme text-[#1b1b18] items-center lg:justify-center min-h-screen max-h-screen m-0">
+<body class="parent bg-black/90 max-w-vw 
+    text-[#1b1b18] items-center lg:justify-center min-h-screen max-h-screen m-0">
     <x-topnavbar></x-topnavbar>
     <div class="child items-center min-h-[90vh] max-h-[90vh] justify-center w-full p-2 flex flex-col">
         @auth
         <main class="p-5 flex-grow xl:w-3/4 w-full bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
-            <x-message-box>Here you go!</x-message-box>
         </main>
         @else
         <main class="p-5 xl:w-3/4 w-full bg-primary rounded-2xl justify-center items-center text-center align-middle flex flex-col flex-grow" id="chatBox">

@@ -32,7 +32,7 @@
     <div class=" child min-h-full max-h-full justify-center w-full p-2">
         <main class="flex flex-col isolate mx-0 my-5 md:mx-10 lg:mx-60 md:my-10 w-auto rounded-[30px] p-10 bg-black/30 shadow-md shadow-white/20 backdrop-blur-xl text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)] text-text-primary">
             <div class="text-xl md:text-3xl lg:text-5xl font-[Montserrat]">
-                Land Your Dream Job with a Resume That Stands Out. 
+                Land Your Dream Job with a Resume That Stands Out.
             </div>
             <span class="h-[2px] bg-white/40 w-3/4 justify-self-center flex m-2"></span>
             <div class="flex flex-col p-5 text-sm md:text-xl lg:text-2xl justify-center">
@@ -60,21 +60,20 @@
                             <li>Tailored Formats</li>
                             <li>Industry Specific Keywords</li>
                             <li>Unlimited Edits</li>
-                            <li>.tex Format</li>
+                            <li>TeX Document</li>
                         </ul>
                     </div>
                     <div class="flex flex-row m-4 mt-20 md:mt-0 w-1/2 justify-center">
                         <div class="self-end absolute flex flex-wrap md:flex-nowrap w-1/2 justify-around">
-                            <x-button class="
-                            w-full md:w-1/2 mx-2 justify-center my-2 font-[Montserrat] text-sm md:text-md lg:text-xl
-                            border border-white hover:bg-green-500/60 
-                            hover:-translate-y-1 hover:ring-2 hover:ring-white/50
-                            hover:shadow-md hover:shadow-white/50 hover:animate-none
-                            getBtn
-                            animate-[btnBounce_5s_ease-in-out_infinite_reverse]
-                            ">
-                                Get Started
-                            </x-button>
+                            <form action="{{ route('chat') }}" method="get" class="w-full md:w-1/2 mx-2 justify-center my-2 font-[Montserrat] text-sm md:text-md lg:text-xl">
+                                <x-button class=" w-full justify-center
+                                hover:bg-green-500/60 
+                                hover:-translate-y-1 hover:ring-2 hover:ring-white/50
+                                hover:shadow-md hover:shadow-white/50 getBtn
+                                " type="submit">
+                                    Get Started
+                                </x-button>
+                            </form>
                             @auth
                             @else
                             <x-button type="button" class="w-1/2 mx-2 justify-center my-2  font-[Montserrat] text-sm md:text-md lg:text-xl bg-white/10 border border-white hover:bg-white/20
@@ -85,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-xs ms-5">For more information, click here.</div>
+            <div class="text-xs ms-5 mt-4">For more information, click here.</div>
 
 
     </div>
@@ -103,48 +102,8 @@
         </div>
     </div>
     </div>
-    
-    <footer class="bg-black/40 backdrop-blur-md text-white mt-10 rounded-t-[30px] shadow-inner shadow-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm md:text-base">
-            <div>
-            <x-logolabel class=""></x-logolabel>
-                <p class="text-white/70">Helping you land your dream job with tailored, AI-powered resumes.</p>
-            </div>
 
-            <div>
-                <h3 class="font-semibold mb-3">Quick Links</h3>
-                <ul class="space-y-2 text-white/70">
-                    <li><a href="#" class="hover:text-white transition">Features</a></li>
-                    <li><a href="#" class="hover:text-white transition">How it works</a></li>
-                    <li><a href="/login" class="hover:text-white transition">Login</a></li>
-                    <li><a href="/register" class="hover:text-white transition">Register</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold mb-3">Resources</h3>
-                <ul class="space-y-2 text-white/70">
-                    <li><a href="#" class="hover:text-white transition">FAQs</a></li>
-                    <li><a href="#" class="hover:text-white transition">Support</a></li>
-                    <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold mb-3">Stay Updated</h3>
-                <p class="text-white/70 mb-3">Get tips & updates right to your inbox.</p>
-                <form class="flex flex-col space-y-2">
-                    <input type="email" placeholder="Your email" class="px-3 py-2 rounded bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50">
-                    <button type="submit" class="bg-gradient-to-tr from-[#D6645D] to-[#439DDF] text-white rounded px-3 py-2 font-semibold hover:brightness-110 transition">Subscribe</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="border-t border-white/20 mt-10 py-4 text-center text-xs text-white/50 px-4">
-            © 2025 Resumini. All rights reserved.
-        </div>
-    </footer>
+    <x-footerbar />
 
 </body>
 
