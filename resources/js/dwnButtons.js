@@ -1,5 +1,5 @@
 function getClasses(){
-    return "inline-flex items-center px-3 py-1.5 mx-1 bg-green-700 border rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-900 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150 hover:ring-2 hover:ring-green-300";
+    return "inline-flex items-center px-3 py-1.5 mx-1 bg-green-500/50 border rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500/60 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150 hover:ring-2 hover:ring-green-300";
 }
 
 function setPDF(base64){
@@ -14,11 +14,28 @@ function setPDF(base64){
     return Url;
 }
 
-function setTex(base64){
-    let blob = new Blob([atob(base64)], {type: "application/x-latex"});
+function setTex(type, base64){
+    let fltype = "";
+    switch(type){
+        case 'html':
+            fltype = 'text/html'
+            break;
+        default:
+            fltype = 'application/x-latex'
+            break;
+    }
+    let blob = new Blob([atob(base64)], {type: fltype});
     let Url = URL.createObjectURL(blob);
     return Url;
 }
+
+function setDoc(base64){
+    let dataURI = base64;
+    if (!base64.startsWith('data:')) {
+        dataURI = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + base64;
+    }
+    return dataURI;
+};
 
 export function createButton(type, base64){
     const dwnLink = document.createElement("a");
@@ -29,8 +46,10 @@ export function createButton(type, base64){
 
     if(type == 'PDF' || type == 'pdf'){
         dwnLink.href = setPDF(base64);
+    } else if(type == 'docx'){
+        dwnLink.href = setDoc(base64);
     } else {
-        dwnLink.href = setTex(base64);
+        dwnLink.href = setTex(type, base64);
     }
 
     dwnLink.download = "output." + type;

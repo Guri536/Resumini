@@ -92,15 +92,15 @@ class ResAI extends Model
         }
         if ($isError) return response()->json(['res' => $res, 'isError' => true]);
 
-        array_push($this->chat, Content::parse(part: $prompt, role: Role::USER));
         $res = $res->text();
         try {
             preg_match('/<!--Res-Start-->(.+?)<!--Res-End-->/s', $res, $toUser);
+            array_push($this->chat, Content::parse(part: $prompt, role: Role::USER));
             array_push($this->chat, Content::parse(part: trim($toUser[1]), role: Role::MODEL));
             Cache::put("gemini_chat", $this->chat, now()->addHours(24));
         } catch (Exception $error) {
             if(!$gotError) return $this->getRes($prompt, 1, true);
-            return response()->json(['res' => "Response Error: ". strtok($error, '#'), 'comp' => $res]);
+            return response()->json(['res' => "Response Error: ". strtok($error, '#'), 'comp' => $res, 'isError' => true]);
         }
 
         try {
@@ -108,7 +108,7 @@ class ResAI extends Model
             Cache::put("tex_doc", trim($texDoc[1]), now()->addHours(24));
         } catch (Exception $error) {
             if(!$gotError) return $this->getRes($prompt, 1, true);
-            return response()->json(['res' => "Tex Document Error: " . strtok($error, '#'), 'comp' => $res]);
+            return response()->json(['isError' => true,'res' => "Tex Document Error: " . strtok($error, '#'), 'comp' => $res]);
         }
 
         try {
@@ -116,7 +116,7 @@ class ResAI extends Model
             $sepCon = explode("\n", trim($conditions[1]));
         } catch (Exception $error) {
             if(!$gotError) return $this->getRes($prompt, 1, true);
-            return response()->json(['res' => "Conditional Error: " . strtok($error, '#'), 'comp' => $res]);
+            return response()->json(['isError' => true,'res' => "Conditional Error: " . strtok($error, '#'), 'comp' => $res]);
         }
 
         try {
@@ -125,7 +125,7 @@ class ResAI extends Model
             $prof_info_provided = $sepCon[2][-1];
         } catch (Exception $error) {
             if(!$gotError) return $this->getRes($prompt, 1, true);
-            return response()->json(['res' => "Conditional Parse Error: " . $conditions . " : " . strtok($error, '#'), 'comp' => $res]);
+            return response()->json(['isError' => true,'res' => "Conditional Parse Error: " . $conditions . " : " . strtok($error, '#'), 'comp' => $res]);
         }
 
         try{
@@ -133,7 +133,7 @@ class ResAI extends Model
             Cache::put('pers_info', $pers_info_provided, now()->addHours(24));
             Cache::put('prof_info', $prof_info_provided, now()->addHours(24));
         } catch(Exception $error){
-            return response()->json(['res' => "Database Addition Error: " . $conditions . " : " . strtok($error, '#')]);
+            return response()->json(['isError' => true,'res' => "Database Addition Error: " . $conditions . " : " . strtok($error, '#')]);
         }
         if ($resume_complete == "T" || $resume_complete == 'T') {
             return response()->json(['res' => trim($toUser[1]), 'tex' => trim($texDoc[1]), 'con' => array($resume_complete, $pers_info_provided, $prof_info_provided), 'comp' => $res]);
@@ -148,7 +148,10 @@ class ResAI extends Model
         $pdflatex->setBuildDir('D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini-main\storage\app\private');
         $res = $pdflatex->compilestring($template);
         $texRes = str_replace(".pdf", ".tex", $res);
-        return array($res, $texRes);
+        $dir = preg_split('/\/output.pdf/', $res)[0];
+        $texToHtml = (new \Pandoc\Pandoc)->from('latex')->input($template)->to('html')->output($dir . "/output.html")->run();
+        $texToDocx = (new \Pandoc\Pandoc)->from('latex')->input($template)->to('docx')->output($dir . "/output.docx")->run();
+        return $dir;
     }
 
     private static function getFromCache($key)

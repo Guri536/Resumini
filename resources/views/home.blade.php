@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css','resources/js/topBarMenu.js'])
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <!-- Styles -->
@@ -39,15 +39,15 @@
                 Get a professionally designed resume within minutes. Share your experience and skills, to get your career success automated. Stand out to employers. Shine amongst competitors.
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-2">
-                    <div class="bg-white/10 p-5 rounded-lg backdrop-blur-sm hover:bg-white/20 transition">
+                    <div class="home_tabs">
                         <div class="text-xl font-bold mb-2">AI-Powered</div>
                         <p class="text-sm md:text-base">Our intelligent Reshumi AI analyzes your experience to highlight your most valuable skills.</p>
                     </div>
-                    <div class="bg-white/10 p-5 rounded-lg backdrop-blur-sm hover:bg-white/20 transition">
+                    <div class="home_tabs">
                         <div class="text-xl font-bold mb-2">ATS-Optimized</div>
                         <p class="text-sm md:text-base">Get past automated screening systems with templates designed for maximum visibility.</p>
                     </div>
-                    <div class="bg-white/10 p-5 rounded-lg backdrop-blur-sm hover:bg-white/20 transition">
+                    <div class="home_tabs">
                         <div class="text-xl font-bold mb-2">Industry-Specific</div>
                         <p class="text-sm md:text-base">Tailored keywords and formatting for your target industry to increase interview chances.</p>
                     </div>
@@ -76,17 +76,20 @@
                             </form>
                             @auth
                             @else
-                            <x-button type="button" class="w-1/2 mx-2 justify-center my-2  font-[Montserrat] text-sm md:text-md lg:text-xl bg-white/10 border border-white hover:bg-white/20
-                            hover:-translate-y-1 hover:ring-2 hover:ring-white/50 
-                            hover:shadow-md hover:shadow-white/50">Sign Up</x-button>
+                            <form action="{{ route('login') }}" method="get" class="w-full md:w-1/2 mx-2 justify-center my-2 font-[Montserrat] text-sm md:text-md lg:text-xl">
+                                <x-button type="submit" class="w-full justify-center 
+                                bg-white/10 border border-white hover:bg-white/20
+                                hover:-translate-y-1 hover:ring-2 hover:ring-white/50 
+                                hover:shadow-md hover:shadow-white/50">
+                                    Sign Up
+                                </x-button>
+                            </form>
                             @endauth
                         </div>
                     </div>
                 </div>
             </div>
             <div class="text-xs ms-5 mt-4">For more information, click here.</div>
-
-
     </div>
     <div class="flex isolate mx-3 my-5 md:mx-30 lg:mx-60 md:my-10 w-auto rounded-[30px] p-10 bg-black/30 shadow-md shadow-white/20 backdrop-blur-xl text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)] text-text-primary">
         <div class="">

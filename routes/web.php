@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-Route::get('/', function(Request $r){
+Route::get('/', function (Request $r) {
     return view('home');
 })->name('home');
 
 Route::get('/chat', function (Request $r) {
     return view('chat');
 })->name("chat");
+
+Route::get('/features', function (Request $r) {
+    return view('features');
+})->name('features');
 
 Route::post('/loginC', function (Request $r) {
     $cred = $r->validate([
@@ -44,19 +48,20 @@ Route::post('/clearChat', function () {
 });
 
 Route::post('getTex', function (Request $r) {
-    $res = ResAI::getDoc($r->input('tex'));
-    $tex = base64_encode(file_get_contents($res[1]));
-    $pdf = base64_encode(file_get_contents($res[0]));
-    return response()->json(['pdf' => $pdf, 'tex' => $tex]);
+    try {
+        $res = ResAI::getDoc($r->input('tex'));
+    } catch (Exception $error) {
+        return response()->json(['isError' => true, 'err' => array($error->getMessage(), $error->getCode())]);
+    }
+    $tex = base64_encode(file_get_contents($res . '/output.tex'));
+    $pdf = base64_encode(file_get_contents($res . '/output.pdf'));
+    $docx = base64_encode(file_get_contents($res . '/output.docx'));
+    $html = base64_encode(file_get_contents($res . '/output.html'));
+    return response()->json(['pdffile' => $res . '/output.pdf','pdf' => $pdf, 'tex' => $tex, 'docx' => $docx, 'html' => $html]);
 });
 
 Route::get('/test', function () {
-    $model = Gemini\Laravel\Facades\Gemini::generativeModel('gemini-2.0-flash');
-    $res =  $model->withGenerationConfig(
-        generationConfig: new Gemini\Data\GenerationConfig(
-            temperature: 0.7
-        )
-    )->generateContent("List 5 popular cookie recipes with cooking time");
+    return response()->json(['res' => ResAI::getDoc(Storage::get('texTemplate.tex'))]);
 })->name('test');
 
 Route::middleware([

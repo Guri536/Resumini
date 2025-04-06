@@ -88,7 +88,7 @@ function updateMBox(type, text) {
     let inner = addMessageElement(type);
     inner.scrollIntoView({ behavior: 'smooth' })
     if (type == 1) {
-        inner.innerHTML = (text.replace(/\n/g,'<br>'));
+        inner.innerHTML = (text.replace(/\n/g, '<br>'));
         updateMBox(0, text)
     } else {
         addAnimationToMessage(inner);
@@ -137,6 +137,9 @@ function ajaxReq(prompt, ele) {
         },
         success: function (res) {
             console.log(res['original']);
+            if('isError' in res || 'isError' in res['original']){
+                updateResponse(res['original']['res'], ele);
+            }
             // console.log(res['original']['con']);
             updateResponse(res['original']['res'], ele);
             if ('tex' in res['original']) {
@@ -155,10 +158,10 @@ if (AIRes == 0 && input) {
         },
         method: 'POST',
         success: function (res) {
-            // updateMBox(0, "Generate");  
+            updateMBox(0, "Generate");  
         }
     });
-} 
+}
 
 function getTex(tex) {
     let inner = addMessageElement(0);
@@ -173,8 +176,13 @@ function getTex(tex) {
         },
         method: 'POST',
         success: function (res) {
-            inner.innerHTML = "";
-            genDisplayElements(inner, res['pdf'], res['tex']);
+            console.log(res);
+            if ('isError' in res) {
+                inner.innerHTML = "An Error has Occured. Try Again"
+            } else {
+                inner.innerHTML = "";
+                genDisplayElements(inner, res['pdf'], res['tex'], res['html'], res['docx']);
+            }
         }
     })
 }

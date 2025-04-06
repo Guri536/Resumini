@@ -93,3 +93,7 @@
     opacity: 0;
     transform: translateY(-10px);
 }
+
+.home_tabs{
+    @apply bg-white/10 p-5 rounded-lg backdrop-blur-sm hover:bg-white/20 transition duration-300;
+}
