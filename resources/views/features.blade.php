@@ -1,5 +1,5 @@
 <x-app-layout>
-<div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8">
         <!-- Page Title -->
         <div class="text-center mb-12">
             <h1 class="text-3xl md:text-4xl lg:text-5xl font-[Montserrat] text-text-primary mb-4">Reshumi AI Features</h1>
@@ -76,7 +76,7 @@
         <!-- Advanced Features Section -->
         <div class="mx-auto max-w-4xl mb-16">
             <h2 class="text-2xl md:text-3xl font-[Montserrat] text-text-primary mb-8 text-center">Advanced Capabilities</h2>
-            
+
             <div class="space-y-6">
                 <div class="bg-black/20 rounded-lg p-6 backdrop-blur-md">
                     <div class="flex items-start">
@@ -131,7 +131,7 @@
         <!-- Comparison Table -->
         <div class="mx-auto max-w-5xl mb-16">
             <h2 class="text-2xl md:text-3xl font-[Montserrat] text-text-primary mb-8 text-center">How Reshumi Compares</h2>
-            
+
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse bg-black/20 backdrop-blur-md rounded-lg overflow-hidden">
                     <thead>
@@ -172,7 +172,7 @@
             </div>
         </div>
 
-    
+
 
         <!-- CTA Section -->
         <div class="mx-auto max-w-4xl bg-gradient-to-r from-black/40 to-black/40 backdrop-blur-xl rounded-xl p-8 mb-16 text-center">
@@ -181,7 +181,7 @@
                 Join thousands of successful job seekers who use Resumini to create standout resumes that get interviews.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md font-semibold text-white bg-white/10 border border-white hover:bg-white/20 hover:-translate-y-1 hover:ring-2 hover:ring-white/50 hover:shadow-md hover:shadow-white/50 transition ease-in-out duration-150">
+                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md font-semibold text-white bg-white/10 border-white hover:bg-white/20 hover:-translate-y-1 hover:ring-2 hover:ring-white/50 hover:shadow-md hover:shadow-white/50 transition ease-in-out duration-150">
                     Get Started Free
                 </a>
                 <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md font-semibold bg-gradient-to-r from-[#D6645D] to-[#439DDF] text-white hover:-translate-y-1 hover:shadow-md hover:shadow-white/30 transition ease-in-out duration-150">

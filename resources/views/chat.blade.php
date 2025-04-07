@@ -30,7 +30,7 @@
     <x-topnavbar></x-topnavbar>
     <div class="child items-center min-h-[90vh] max-h-[90vh] justify-center w-full p-2 flex flex-col">
         @auth
-        <main class="p-5 flex-grow xl:w-3/4 w-full bg-primary overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
+        <main class="p-5 flex-grow xl:w-3/4 w-full bg-black/20 border border-gray-700 border-1 overflow-y-auto overscroll-contain rounded-2xl" id="chatBox">
         </main>
         @else
         <main class="p-5 xl:w-3/4 w-full bg-primary rounded-2xl justify-center items-center text-center align-middle flex flex-col flex-grow" id="chatBox">
@@ -51,7 +51,7 @@
                         <x-label-input>
                             <x-slot:label>Password:</x-slot>
                                 <x-slot:input>
-                                    <x-input type='password' class='w-full p-1' id='password' name='password' required autocomplete="current-password"/>
+                                    <x-input type='password' class='w-full p-1' id='password' name='password' required autocomplete="current-password" />
                                     </x-slot>
                         </x-label-input>
                         <div class="flex xl:flex-nowrap flex-wrap w-auto mt-4 xl:mx-7 xl:justify-between justify-center">

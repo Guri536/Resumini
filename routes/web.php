@@ -21,6 +21,10 @@ Route::get('/features', function (Request $r) {
     return view('features');
 })->name('features');
 
+Route::get('/how', function(Request $r){
+    return view('how');
+})->name('how');
+
 Route::post('/loginC', function (Request $r) {
     $cred = $r->validate([
         'email' => ['required', 'email'],
@@ -51,7 +55,8 @@ Route::post('getTex', function (Request $r) {
     try {
         $res = ResAI::getDoc($r->input('tex'));
     } catch (Exception $error) {
-        return response()->json(['isError' => true, 'err' => array($error->getMessage(), $error->getCode())]);
+        $tex = base64_encode(file_get_contents($res . '/output.tex'));
+        return response()->json(['isError' => true, 'err' => array($error->getMessage(), $error->getCode()), 'tex' => $tex]);
     }
     $tex = base64_encode(file_get_contents($res . '/output.tex'));
     $pdf = base64_encode(file_get_contents($res . '/output.pdf'));

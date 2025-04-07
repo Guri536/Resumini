@@ -2,12 +2,15 @@
         <div class="justtify-start flex w-full h-full">
             <x-logolabel></x-logolabel>
             <nav class="text-primary text-lg flex flex-col align-middle justify-center ms-12 sr-only md:not-sr-only">
-                <ul class="flex flex-row [&>li]:ms-5">
+                <ul class="flex flex-row [&>li]:ms-5 font-[Lato]">
+                    <li>
+                        <a href="{{route('chat')}}" rel="noopener noreferrer" class="hover:underline">Chat</a>
+                    </li>
                     <li>
                         <a href="{{route('features')}}" rel="noopener noreferrer" class="hover:underline">Features</a>
                     </li>
                     <li>
-                        <a href="#" rel="noopener noreferrer" class="hover:underline">How it works?</a>
+                        <a href="{{route('how')}}" rel="noopener noreferrer" class="hover:underline">How it works?</a>
                     </li>
                 </ul>
             </nav>

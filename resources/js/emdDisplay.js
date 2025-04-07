@@ -1,4 +1,5 @@
 import { createButton } from './dwnButtons'; 
+import { setOverleaf } from './dwnButtons';
 import { crtEleClass } from './crtEle';
 
 function createEmbed(base64) {
@@ -33,4 +34,34 @@ export function genDisplayElements(ele, pdf64, tex64, html64, docx64) {
     upCont.append(btnCont);
     ele.append(upCont);
     ele.append(pdfdis);
+}
+
+export function errorDisplayElements(ele, tex64){
+    let upCont = crtEleClass("div", "parent flex rounded-md bg-backTheme w-fit p-1.5 mb-2 text-gray-200");
+    let labelCont = crtEleClass("div", "child content-center");
+    let btnCont = crtEleClass("div", "w-full justify-left m-2 flex");
+    let label = crtEleClass("div", "w-full text-nowrap text-lg");
+    
+    let oupCont = crtEleClass("div", "parent flex rounded-md bg-backTheme w-fit p-1.5 mb-2 text-gray-200");
+    let olabelCont = crtEleClass("div", "child content-center");
+    let obtnCont = crtEleClass("div", "w-full justify-left m-2 flex");
+    let oLabel = crtEleClass("div", "w-full text-nowrap text-md");
+
+    let texDwnBtn = createButton('tex', tex64);
+    let overleafBtn = setOverleaf(tex64);
+    label.innerHTML = "Download:";
+    oLabel.innerHTML = "Overleaf:"
+
+    labelCont.append(label);
+    btnCont.append(texDwnBtn);
+    upCont.append(labelCont);
+    upCont.append(btnCont);
+
+    olabelCont.append(oLabel);
+    obtnCont.append(overleafBtn);
+    oupCont.append(olabelCont);
+    oupCont.append(obtnCont);
+    
+    ele.append(upCont);
+    ele.append(oupCont);
 }

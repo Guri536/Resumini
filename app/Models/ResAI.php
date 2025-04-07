@@ -65,7 +65,7 @@ class ResAI extends Model
                     $prompt 
                 <--User-End-->
                 <--Instructions-Start-->
-                    1. Generate a friendly response, keep it short. Your reponse_text should not exceed 100 words.
+                    1. Generate a friendly response, keep it short. Your reponse_text should not exceed 100 words, don't greet the user again and again.
                     2. Based on the user's response, continue else ask the user again for an appropritate response.
                     3. You are allowed to edit the tex document, you can add additional context to descriptions by yourself all based on user's provided info. It should be enough to fill the resume. Suppose, if the user has not added description to their Uni Experience, then you are free to do it on the user's behalf. Explain skills on user's behalf.
                     4. You are allowed to read and change the variables, and make changes based on the varibales passed.
@@ -146,7 +146,12 @@ class ResAI extends Model
         $template = $tex;
         $pdflatex = new PhpLatex_PdfLatex();
         $pdflatex->setBuildDir('D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini-main\storage\app\private');
-        $res = $pdflatex->compilestring($template);
+        try{
+            $res = $pdflatex->compilestring($template);
+        }
+        catch(Exception $error){
+            return 'D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini-main\storage\app\private\pdflatex\\' . md5($template); 
+        }
         $texRes = str_replace(".pdf", ".tex", $res);
         $dir = preg_split('/\/output.pdf/', $res)[0];
         $texToHtml = (new \Pandoc\Pandoc)->from('latex')->input($template)->to('html')->output($dir . "/output.html")->run();

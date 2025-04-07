@@ -37,6 +37,29 @@ function setDoc(base64){
     return dataURI;
 };
 
+export function setOverleaf(base64){
+    const formlink = document.createElement("form");
+    const input = document.createElement('input')
+    const submitButton = document.createElement('button');
+
+    formlink.method = "post";
+    formlink.action = "https://www.overleaf.com/docs";
+    formlink.target = "_blank";
+
+    input.type = "text";
+    input.name = "snip_uri";
+    input.value = "data:application/x-tex;base64," + base64;
+    input.hidden = true;
+
+    submitButton.type = "submit";
+    submitButton.className = getClasses();
+    submitButton.innerHTML = "Overleaf"
+
+    formlink.append(input);
+    formlink.append(submitButton);
+    return formlink;
+}
+
 export function createButton(type, base64){
     const dwnLink = document.createElement("a");
     const dwnButton = document.createElement("button");

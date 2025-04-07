@@ -1,6 +1,6 @@
 import './bootstrap';
 import { LoremIpsum } from 'lorem-ipsum';
-import { genDisplayElements } from './emdDisplay';
+import { errorDisplayElements, genDisplayElements } from './emdDisplay';
 import { crtEleClass } from './crtEle';
 
 window.AIRes = 0
@@ -48,7 +48,7 @@ function getOuterTemplate(type) {
     return "flex w-full justify-" + (type == 0 ? "start" : "end");
 }
 function getMidTemplate(type) {
-    return "p-2 min-w-[20px] w-auto max-w-3xl text-wrap mb-2 text-justify relative " + (type == 0 ? "bg-ternary text-ternary rounded-r-lg rounded-tl-lg invBor" : "bg-quat text-quat rounded-l-lg rounded-tr-lg invBor2")
+    return "p-2 min-w-[20px] w-auto max-w-3xl text-wrap mb-2 text-justify relative " + (type == 0 ? "bg-gray-700 text-gray-700 rounded-r-lg rounded-tl-lg invBor" : "bg-gray-600 text-gray-600 rounded-l-lg rounded-tr-lg invBor2")
 }
 
 function getAnimCircle(delay) {
@@ -158,7 +158,9 @@ if (AIRes == 0 && input) {
         },
         method: 'POST',
         success: function (res) {
-            updateMBox(0, "Generate");  
+            updateMBox(0, "Generate"); 
+            // let hum = addMessageElement(1);
+            // hum.innerHTML = "Test"
         }
     });
 }
@@ -178,7 +180,8 @@ function getTex(tex) {
         success: function (res) {
             console.log(res);
             if ('isError' in res) {
-                inner.innerHTML = "An Error has Occured. Try Again"
+                inner.innerHTML = "An Error has Occured. EIther try again or try compilgin the .tex yourself in overleaf.<br><br>Here is the .tex and overleaf link."
+                errorDisplayElements(inner, res['tex']);
             } else {
                 inner.innerHTML = "";
                 genDisplayElements(inner, res['pdf'], res['tex'], res['html'], res['docx']);
