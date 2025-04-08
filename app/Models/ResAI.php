@@ -150,7 +150,7 @@ class ResAI extends Model
             $res = $pdflatex->compilestring($template);
         }
         catch(Exception $error){
-            return 'D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini-main\storage\app\private\pdflatex\\' . md5($template); 
+            throw new Exception('D:\Work\PHP\Laravell_Tests\Laravell-_ests\Resumini-main\storage\app\private\pdflatex\\' . md5($template)); 
         }
         $texRes = str_replace(".pdf", ".tex", $res);
         $dir = preg_split('/\/output.pdf/', $res)[0];

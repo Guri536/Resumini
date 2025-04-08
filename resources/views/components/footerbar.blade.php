@@ -10,15 +10,17 @@
                 <ul class="space-y-2 text-white/70">
                     <li><a href="{{ route('features') }}" class="hover:text-white transition">Features</a></li>
                     <li><a href="{{ route('how') }}" class="hover:text-white transition">How it works</a></li>
+                    @guest
                     <li><a href="/login" class="hover:text-white transition">Login</a></li>
                     <li><a href="/register" class="hover:text-white transition">Register</a></li>
+                    @endguest
                 </ul>
             </div>
 
             <div>
                 <h3 class="font-semibold mb-3">Resources</h3>
                 <ul class="space-y-2 text-white/70">
-                    <li><a href="#" class="hover:text-white transition">FAQs</a></li>
+                    <li><a href="{{ route('faq') }}" class="hover:text-white transition">FAQs</a></li>
                     <li><a href="#" class="hover:text-white transition">Support</a></li>
                     <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
                     <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
