@@ -21,13 +21,26 @@ Route::get('/features', function (Request $r) {
     return view('features');
 })->name('features');
 
-Route::get('/how', function(Request $r){
+Route::get('/how', function (Request $r) {
     return view('how');
 })->name('how');
 
-Route::get('/faq', function(Request $r){
+Route::get('/faq', function (Request $r) {
     return view('faq');
 })->name('faq');
+
+Route::get('/support', function (Request $r) {
+
+    if (session()->has('success')) {
+        session()->flash('flash.banner', 'Thank You for Contacting Us, We will get back to you shortly.');
+        session()->flash('flash.bannerStyle', 'success');
+    }
+    return view('support');
+})->name('support');
+
+Route::get('/supportSuccess', function () {
+    return redirect()->route('support')->with('success', 'Thank you');
+})->name('supportSuccess');
 
 Route::post('/loginC', function (Request $r) {
     $cred = $r->validate([
@@ -66,7 +79,7 @@ Route::post('getTex', function (Request $r) {
     $pdf = base64_encode(file_get_contents($res . '/output.pdf'));
     $docx = base64_encode(file_get_contents($res . '/output.docx'));
     $html = base64_encode(file_get_contents($res . '/output.html'));
-    return response()->json(['pdffile' => $res . '/output.pdf','pdf' => $pdf, 'tex' => $tex, 'docx' => $docx, 'html' => $html]);
+    return response()->json(['pdffile' => $res . '/output.pdf', 'pdf' => $pdf, 'tex' => $tex, 'docx' => $docx, 'html' => $html]);
 });
 
 Route::get('/test', function () {
@@ -77,8 +90,4 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+])->group(function () {});

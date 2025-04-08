@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-xs ms-5 mt-4">For more information, click here.</div>
+            <div class="text-xs ms-5 mt-4">For more information, <a href="{{ route('features') }}" class="text-blue-200 hover:underline">click here.</a></div>
     </div>
     <div class="flex isolate mx-3 my-5 md:mx-30 lg:mx-60 md:my-10 w-auto rounded-[30px] p-10 bg-black/30 shadow-md shadow-white/20 backdrop-blur-xl text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)] text-text-primary">
         <div class="">

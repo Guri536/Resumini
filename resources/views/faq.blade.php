@@ -9,6 +9,12 @@
             <div class="h-1 w-2/3 bg-gradient-to-r from-[#D6645D] via-[#c1a8ea] to-[#439DDF] mx-auto mt-6"></div>
         </div>
 
+        <div class="flex isolate mx-3 my-5 md:mx-30 lg:mx-60 md:my-10 w-auto rounded-[30px] p-4 justify-center bg-black/30 shadow-md shadow-white/20 backdrop-blur-xl text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)] text-text-primary">
+            <div class="">
+            In order to get your questions answered, contact us through support. <a href="{{ route('support') }}" class="text-blue-200 hover:underline">Click here.</a>
+            </div>
+        </div>
+
         <div class="flex isolate mx-3 my-5 md:mx-30 lg:mx-60 md:my-10 w-auto rounded-[30px] p-10 bg-black/30 shadow-md shadow-white/20 backdrop-blur-xl text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)] text-text-primary">
             <div class="">
                 <div class="text-xl font-semibold mb-4">Frequently Asked Questions</div>
